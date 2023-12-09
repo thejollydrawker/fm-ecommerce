@@ -1,11 +1,13 @@
 import { NgClass } from '@angular/common';
 import { Component } from '@angular/core';
+import { CartService } from '../../services/cart.service';
+import { tap } from 'rxjs';
 
-interface Cart {
+export interface Cart {
   items: CartItem[];
 }
 
-interface CartItem {
+export interface CartItem {
     id: number,
     name: string;
     description: string;
@@ -25,20 +27,25 @@ interface CartItem {
 export class CartComponent {
   cart: Cart = {
     items: [
-      {
-        id:1,
-        name: 'Fall Limited Edition Sneakers',
-        description :'',
-        price: 125.00,
-        quantity: 3
-      }
     ] 
   };
   isOpen: boolean = false;
+  total: number = 0;
 
-  total: number = this.cart.items.reduce((a,v) => a+ v.quantity, 0);
+  cartContent$ = this.cartSrv.cart$
+    .pipe(
+      tap((c: Cart) => this.total = c.items.reduce((a,v) => a+ v.quantity, 0))
+    );
+
+  constructor(private cartSrv: CartService) {
+    this.cartContent$.subscribe(c => this.cart = c);
+  }
 
   toggleCart(): void {
     this.isOpen = !this.isOpen;
+  }
+
+  removeFromCart(id: number): void {
+    this.cartSrv.removeFromCart(id);
   }
 }
