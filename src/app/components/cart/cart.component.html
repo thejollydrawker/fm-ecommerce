@@ -11,7 +11,7 @@
     
 </div>
 
-<div [ngClass]="isOpen ?' opacity-100': 'opacity-0 scale-75'" class="w-full box-border md:w-80 absolute right-0 md:-right-40 top-24 md:top-16 transition duration-150 ease-in">
+<div [ngClass]="isOpen ?' opacity-100 z-20': 'opacity-0 scale-75'" class="w-full box-border md:w-80 absolute right-0 md:-right-40 top-24 md:top-16 transition duration-150 ease-in">
     <div class="bg-white mx-4 md:mx-0 p-3 shadow-xl rounded-md">
     <h3 class="py-2 border-b-2 font-bold">Cart</h3>
     @for (item of cart.items; track item) {
